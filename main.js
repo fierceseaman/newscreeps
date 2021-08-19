@@ -8459,7 +8459,7 @@ function hookUpPrototypes() {
 function profileObjectFunctions(object, label) {
 
     if(!prototypes){
-      return
+      prototypes = 0;
     }
 
     const objectToWrap = object.prototypes ? object.prototypes : object;
