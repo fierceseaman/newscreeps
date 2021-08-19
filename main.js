@@ -8458,6 +8458,10 @@ function hookUpPrototypes() {
 
 function profileObjectFunctions(object, label) {
 
+    if(!prototypes){
+      return
+    }
+
     const objectToWrap = object.prototypes ? object.prototypes : object;
 
     Object.getOwnPropertyNames(objectToWrap).forEach(functionName => {
