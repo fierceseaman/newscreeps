@@ -8457,12 +8457,7 @@ function hookUpPrototypes() {
 }
 
 function profileObjectFunctions(object, label) {
-
-    if(!prototypes){
-      return
-    }
-
-    const objectToWrap = object.prototypes ? object.prototypes : object;
+    const objectToWrap = object.prototype ? object.prototype : object;
 
     Object.getOwnPropertyNames(objectToWrap).forEach(functionName => {
         const extendedLabel = `${label}.${functionName}`;
