@@ -3548,8 +3548,6 @@ var rD = {
 };
 var defender = rD;
 
-var libz = upgrader;
-
 var rB = {
     name: "builder",
     type: "builder",
@@ -3560,7 +3558,7 @@ var rB = {
         //get boosted if needed
         if(creep.memory.needBoost && !creep.memory.boosted){
             const boost = "XLH2O";
-            libz.getBoosted(creep, boost);
+            upgrader.getBoosted(creep, boost);
             return
         }
 
@@ -3587,7 +3585,7 @@ var rB = {
             return actions_1.repair(creep, needRepair)
         } else if(Game.time % 100 == 0
             && !Game.spawns[creep.memory.city].room.find(FIND_MY_CONSTRUCTION_SITES).length ){
-            creep.memory.role = libz.name;
+            creep.memory.role = upgrader.name;
         }
     },
 
@@ -4039,7 +4037,7 @@ var rPC = {
     },
 
     canOperateController: function(creep) {
-        if(Game.spawns[creep.memory.city + "0"].memory[libz.name] > 0){
+        if(Game.spawns[creep.memory.city + "0"].memory[upgrader.name] > 0){
             return rPC.canOperate(creep, creep.room.controller, PWR_OPERATE_CONTROLLER, true)
         } else {
             return false
@@ -4128,7 +4126,7 @@ var rR = {
             creep.memory.juicer = false;
             return false
         }
-        const link = libz.getUpgradeLink(creep);
+        const link = upgrader.getUpgradeLink(creep);
         if(!link) return false
         if(!creep.memory.juicer && link.store.getFreeCapacity(RESOURCE_ENERGY) == 0) return false
         creep.memory.juicer = true;
@@ -4137,7 +4135,7 @@ var rR = {
                 creep.say("*");
             }
             if(link.store.getFreeCapacity(RESOURCE_ENERGY) == 0){
-                const upgrader = _.find(creep.room.find(FIND_MY_CREEPS), c => c.memory.role == libz.name);
+                const upgrader = _.find(creep.room.find(FIND_MY_CREEPS), c => c.memory.role == upgrader.name);
                 if(!upgrader){
                     creep.memory.juicer = false;
                     return false
@@ -5036,7 +5034,7 @@ var rSB = {
         var city = creep.memory.city;
         if(creep.memory.needBoost && !creep.memory.boosted){
             const boost = "XLH2O";
-            libz.getBoosted(creep, boost);
+            upgrader.getBoosted(creep, boost);
             return
         }
 
@@ -5066,7 +5064,7 @@ var rSB = {
                     creep.memory.role = "remoteMiner";
                     return
                 }
-                creep.memory.role = libz.name;
+                creep.memory.role = upgrader.name;
             }
             return
         }
@@ -6223,7 +6221,7 @@ var qrCode = rQr;
 var rr = {
     // order roles for priority. TODO powercreep?
     getRoles: function() {
-        return [ferry, defender, transporter, remoteMiner, runner, libz, builder, quad, mineralMiner, claimer, unclaimer,
+        return [ferry, defender, transporter, remoteMiner, runner, upgrader, builder, quad, mineralMiner, claimer, unclaimer,
             spawnBuilder, libb,medic, breaker, powerMiner,
             robber, depositMiner, scout, qrCode]
     },
@@ -6235,7 +6233,7 @@ var rr = {
         priorites[transporter.name] = 2;
         priorites[remoteMiner.name] = 3;
         priorites[runner.name] = 4;
-        priorites[libz.name] = 5;
+        priorites[upgrader.name] = 5;
         priorites[builder.name] = 6;
         priorites[quad.name] = 7;
         priorites[mineralMiner.name] = 8;
@@ -6254,7 +6252,7 @@ var rr = {
     },
 
     getCoreRoles: function() {
-        return [ferry, defender, transporter, remoteMiner, runner, libz, builder]
+        return [ferry, defender, transporter, remoteMiner, runner, upgrader, builder]
     },
 
     getEmergencyRoles: function() {
@@ -7369,13 +7367,13 @@ function updateTransporter(extensions, memory, creeps, structures, spawn) {
 
 function updateUpgrader(city, controller, memory, rcl8, creeps, rcl) {
     const room = Game.spawns[city].room;
-    memory[libz.name] = 0;//temp
+    memory[upgrader.name] = 0;//temp
     if (rcl8){
         const bucketThreshold = settings_1.bucket.upgrade + settings_1.bucket.range * cityFraction(room.name);
         const haveEnoughCpu = Game.cpu.bucket > bucketThreshold;
         if (controller.ticksToDowngrade < CONTROLLER_DOWNGRADE[rcl]/2
             || (controller.room.storage.store.energy > settings_1.energy.rcl8upgrade && haveEnoughCpu && settings_1.rcl8upgrade)){
-            scheduleIfNeeded(libz.name, 1, true, Game.spawns[city], creeps);
+            scheduleIfNeeded(upgrader.name, 1, true, Game.spawns[city], creeps);
         }
     } else {
         var banks = utils.getWithdrawLocations(creeps[0]);
@@ -7385,7 +7383,7 @@ function updateUpgrader(city, controller, memory, rcl8, creeps, rcl) {
         var capacity = _.sum(_.map(banks, bank => bank.store.getCapacity()));
         //Log.info('money: ' + money + ', ' + (100*money/capacity));
         if(!room.storage && money/capacity < 0.5){
-            memory[libz.name] = 0;
+            memory[upgrader.name] = 0;
             return
         }
         if(money > (capacity * .28)){
@@ -7394,10 +7392,10 @@ function updateUpgrader(city, controller, memory, rcl8, creeps, rcl) {
                 needed = Math.floor(Math.pow((money/capacity) * 4, 2));
             }
             for(let i = 0; i < needed; i++){
-                spawnQueue.schedule(Game.spawns[city], libz.name, rcl >= 6);
+                spawnQueue.schedule(Game.spawns[city], upgrader.name, rcl >= 6);
             }
         } else if (controller.ticksToDowngrade < CONTROLLER_DOWNGRADE[rcl]/2){
-            spawnQueue.schedule(Game.spawns[city], libz.name, rcl >= 6);
+            spawnQueue.schedule(Game.spawns[city], upgrader.name, rcl >= 6);
         }
     }
 }
@@ -7480,7 +7478,7 @@ function updateRunner(creeps, spawn, extensions, memory, rcl, emergencyTime) {
     var energyCarried = types.store(types.getRecipe("runner", spawn.room.energyCapacityAvailable, spawn.room));
     memory[runner.name] = Math.min(settings_1.max.runners, Math.max(Math.ceil(energyProduced / energyCarried), minRunners));
     if(rcl >= 5){
-        const upgraders = _.filter(creeps, creep => creep.memory.role == libz.name).length;
+        const upgraders = _.filter(creeps, creep => creep.memory.role == upgrader.name).length;
         const bonusRunners = Math.floor(upgraders/3);
         memory[runner.name] += bonusRunners;
     }
@@ -7576,7 +7574,7 @@ function runEarlyGame(){
         budget = 100;
         break
     case 3:
-        role = libz;
+        role = upgrader;
         budget = 200;
         break
     }
@@ -9439,7 +9437,7 @@ const p = {
             return
         }
         const creeps = room.controller.pos.findInRange(FIND_MY_CREEPS, 3);
-        const upgrader = _.find(creeps, c => c.memory.role = libz.name);
+        const upgrader = _.find(creeps, c => c.memory.role = upgrader.name);
         if(!upgrader)
             return
         let location = null;
@@ -10145,7 +10143,7 @@ screepsProfiler.registerObject(depositMiner, "depositMiner");
 screepsProfiler.registerObject(error_1, "error");
 screepsProfiler.registerObject(factory, "factory");
 screepsProfiler.registerObject(ferry, "ferry");
-screepsProfiler.registerObject(libb, "harasser");
+screepsProfiler.registerObject(harasser, "harasser");
 screepsProfiler.registerObject(labs_1, "labs");
 screepsProfiler.registerObject(link, "link");
 screepsProfiler.registerObject(markets_1, "markets");
@@ -10169,7 +10167,7 @@ screepsProfiler.registerObject(tower, "tower");
 screepsProfiler.registerObject(transporter, "transporter");
 screepsProfiler.registerObject(types, "types");
 screepsProfiler.registerObject(unclaimer, "unclaimer");
-screepsProfiler.registerObject(libz, "upgrader");
+screepsProfiler.registerObject(upgrader, "upgrader");
 screepsProfiler.registerObject(utils, "utils");
 
 commonjsGlobal.Tmp = {};
