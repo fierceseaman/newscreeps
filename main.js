@@ -2069,15 +2069,7 @@ var T = {
 };
 var tower = T;
 
-var libb = harasser;
-
 //const sq = require("./spawnQueue"); sq.initialize(Game.spawns['E8N60']); sq.schedule(Game.spawns['E8N60'], 'quad')
-
-
-
-
-
-
 
 var CreepState$2 = {
     START: 1,
@@ -2491,7 +2483,7 @@ var rQ = {
         for(let i = 0; i < quad.length; i++){
             if(quad[i]){
                 quad[i].memory.reinforced = true;//keeps quad members from trying to call in a boosted harasser
-                quad[i].memory.role = libb.name;
+                quad[i].memory.role = harasser.name;
             }
         }
     },
@@ -3477,9 +3469,9 @@ var rD = {
             rD.boost(creep);
             break
         case CS$1.ENGAGE:
-            if(!libb.maybeRetreat(creep, hostiles)){
+            if(!harasser.maybeRetreat(creep, hostiles)){
                 if(hostiles.length && creep.pos.inRangeTo(Game.spawns[city], holdPoint)){
-                    libb.aMove(creep, hostiles);
+                    harasser.aMove(creep, hostiles);
                 } else if(creep.ticksToLive < CREEP_LIFE_TIME) {
                     motion.newMove(creep, Game.spawns[city].pos, holdPoint);
                 }
@@ -3489,8 +3481,8 @@ var rD = {
             rD.dormant(creep);
             return
         }
-        libb.shoot(creep, hostiles);
-        libb.maybeHeal(creep, hostiles);
+        harasser.shoot(creep, hostiles);
+        harasser.maybeHeal(creep, hostiles);
         if(!hostiles.length && creep.hits == creep.hitsMax){
             creep.say("sleep");
             if(creep.saying == "sleep"){
@@ -6240,7 +6232,7 @@ var rr = {
         priorites[claimer.name] = 9;
         priorites[unclaimer.name] = 10;
         priorites[spawnBuilder.name] = 11;
-        priorites[libb.name] = 12;
+        priorites[harasser.name] = 12;
         priorites[medic.name] = 13;
         priorites[breaker.name] = 13;
         priorites[powerMiner.name] = 13;
@@ -7193,7 +7185,7 @@ function checkLabs(city){
 
 function updateMilitary(city, memory, rooms, spawn, creeps) {
     const flags = ["harass", "powerMine", "deposit"];
-    const roles = [libb.name, powerMiner.name, depositMiner.name];
+    const roles = [harasser.name, powerMiner.name, depositMiner.name];
     for (var i = 0; i < flags.length; i++) {
         const flagName = city + flags[i];
         const role = roles[i];
@@ -7512,7 +7504,7 @@ function updateStorageLink(spawn, memory, structures) {
 function updateHighwayCreep(flagName, spawn, creeps, role) {
     const flagNames = _.filter(Object.keys(Memory.flags), flag => flag.includes(flagName));
     for(const flag of flagNames){
-        const boosted = role != libb.name || Memory.flags[flag].boosted;
+        const boosted = role != harasser.name || Memory.flags[flag].boosted;
         scheduleIfNeeded(role, 1, boosted, spawn, creeps, flag);
     }
 }
@@ -9177,7 +9169,7 @@ const p = {
         const runnerCost = types.cost(runnerBody);
         const runnerSize = runnerBody.length;
         const energyCarried = types.store(runnerBody);
-        const harasserBody = types.getRecipe(libb.type, spawn.room.energyCapacityAvailable, spawn.room);
+        const harasserBody = types.getRecipe(harasser.type, spawn.room.energyCapacityAvailable, spawn.room);
         const harasserCost = types.cost(harasserBody);
         const harasserSize = harasserBody.length;
         const quadBody = types.getRecipe(quad.type, spawn.room.energyCapacityAvailable, spawn.room);
