@@ -6222,7 +6222,7 @@ var rr = {
     // order roles for priority. TODO powercreep?
     getRoles: function() {
         return [ferry, defender, transporter, remoteMiner, runner, upgrader, builder, quad, mineralMiner, claimer, unclaimer,
-            spawnBuilder, libb,medic, breaker, powerMiner,
+            spawnBuilder, harasser, medic, breaker, powerMiner,
             robber, depositMiner, scout, qrCode]
     },
 
