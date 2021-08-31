@@ -7046,7 +7046,7 @@ function runTowers(city){
             }
         }
 
-        const lowEnergy = spawn.room.storage && spawn.room.terminal && spawn.room.storage.store.energy < 40000;
+        const lowEnergy = spawn.room.storage && spawn.room.terminal && spawn.room.storage.store.energy < 4000;
         if(hostiles.length > 0  && !lowEnergy){
             Log.info("Towers up in " + city);
             spawn.memory.towersActive = true;
