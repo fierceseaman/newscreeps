@@ -9432,7 +9432,7 @@ const p = {
             return
         }
         const creeps = room.controller.pos.findInRange(FIND_MY_CREEPS, 3);
-        const upgrader = _.find(creeps, c => c.memory.role = upgrader.name);
+        const upgrader = _.find(creeps, c => c.memory.role = rU.name);
         if(!upgrader)
             return
         let location = null;
