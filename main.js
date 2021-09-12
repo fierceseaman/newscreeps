@@ -9006,7 +9006,7 @@ const p = {
     },
 
     expand: function(){
-        if(Game.cpu.bucket != 10000 || Memory.flags["claim"]) return
+        if(Game.cpu.bucket >= 9500 || Memory.flags["claim"]) return
         const myCities = utils.getMyCities();
         if(Game.gcl.level == myCities.length) return
         const candidates = _.reject(Cache.roomData, room => !room.score
@@ -10274,7 +10274,7 @@ var loop = function () {
                 (f.claim && f.claimRally) || f.claim);
             unclaimRoom = city.chooseClosestRoom(myCities,
                 (f.unclaim && f.unclaimRally) || f.unclaim);
-            //em.expand() // grow the empire!
+            //em.() // grow the empire!
         }
         //run cities
         var prevCpu = Game.cpu.getUsed();
