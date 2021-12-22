@@ -7,7 +7,7 @@ var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof win
 const username = Object.values(Game.structures).concat(Object.values(Game.creeps), Object.values(Game.powerCreeps), Object.values(Game.constructionSites))[0].owner.username;
 var settings = {
     username: "FierceSeaman",
-    allies: [""],
+    allies: [username],
     nukeStructures: [STRUCTURE_SPAWN, STRUCTURE_LAB, STRUCTURE_STORAGE, STRUCTURE_FACTORY,
         STRUCTURE_TERMINAL, STRUCTURE_POWER_SPAWN, STRUCTURE_NUKER],
     militaryBoosts:["XKHO2", "XGHO2", "XZHO2", "XLHO2", "XZH2O", "G"],
@@ -8250,8 +8250,8 @@ var markets = {
             if(store[products[i]]){
                 const orders = markets.sortOrder(buyOrders[products[i]]).reverse();
                 if(orders.length && orders[0].price > Memory.sellPoint[products[i]] * 0.9){
-                    if(Game.shard.name == "shard3" && Math.random < 0.2 && !Game.rooms["E11N14"]){
-                        city.terminal.send(products[i], Math.min(orders[0].remainingAmount, store[products[i]]), "E11N14");
+                    if(Game.shard.name == "shard3" && Math.random < 0.2 && !Game.rooms["W1N47"]){
+                        city.terminal.send(products[i], Math.min(orders[0].remainingAmount, store[products[i]]), "W1N47");
                         return true
                     }
                     Game.market.deal(orders[0].id, Math.min(orders[0].remainingAmount, store[products[i]]), city.name);
@@ -9020,7 +9020,7 @@ const p = {
     },
 
     expand: function(){
-        if(Game.cpu.bucket != 10000 || Memory.flags["claim"] || !PServ) return
+        if(Game.cpu.bucket != 10000 || Memory.flags["claim"]) return
         const myCities = utils.getMyCities();
         if(Game.gcl.level == myCities.length) return
         const candidates = _.reject(Object.keys(Cache.roomData), roomName => !Cache.roomData[roomName].s 
@@ -9258,7 +9258,7 @@ const p = {
                 room.memory.plan.y = spawnPos.y + template.offset.y - template.buildings.spawn.pos[0].y;
             }
             const planFlag = Memory.flags.plan;
-            if(planFlag && planFlag.roomName == roomName && room.controller.owner && room.controller.owner.username == "Yoner"){
+            if(planFlag && planFlag.roomName == roomName && room.controller.owner && room.controller.owner.username == "FierceSeaman"){
                 room.memory.plan = {};
                 room.memory.plan.x = planFlag.x;
                 room.memory.plan.y = planFlag.y;
